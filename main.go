@@ -21,4 +21,7 @@ func main() {
 
 	BC.PrintChain()
 	BC.PrintAddressAmount(MyBlockChainAddress)
+
+	wallet := blockchain.GenerateWallet()
+	wallet.PrintWalletInfo()
 }

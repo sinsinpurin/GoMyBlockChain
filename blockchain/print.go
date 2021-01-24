@@ -42,3 +42,13 @@ PrintAddressAmount アドレスの合計値を表示します
 func (BC *BlockChain) PrintAddressAmount(blockChainAddress string) {
 	fmt.Printf("[%s]: %d satoshi \n", blockChainAddress, BC.CalculateTotalAmount(blockChainAddress))
 }
+
+/*
+PrintWalletInfo Walletの情報を表示します
+*/
+func (wallet *Wallet) PrintWalletInfo() {
+	fmt.Printf("%s Wallet Info %s \n", strings.Repeat("=", 40), strings.Repeat("=", 40))
+	fmt.Printf("PriKey: %x \n", wallet.PrivateKey)
+	fmt.Printf("PubKey: %x \n", wallet.PublicKey)
+	fmt.Printf("%s \n \n \n", strings.Repeat("=", 93))
+}

@@ -36,3 +36,12 @@ type Transaction struct {
 	SenderAddress    string `json:"SenderAddress"`
 	Value            uint64 `json:"Value"`
 }
+
+/*
+Wallet の構成
+*/
+type Wallet struct {
+	PrivateKey []byte
+	PublicKey  []byte
+	Address    string
+}
