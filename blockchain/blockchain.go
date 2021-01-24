@@ -96,7 +96,7 @@ func (BC *BlockChain) Mining() bool {
 }
 
 /*
-CalculateTotalAmount
+CalculateTotalAmount アドレスの保有量を返します
 */
 func (BC *BlockChain) CalculateTotalAmount(blockChainAddress string) uint64 {
 	var totalAmount uint64

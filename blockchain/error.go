@@ -2,6 +2,9 @@ package blockchain
 
 import "fmt"
 
+/*
+BCError BlockChainのエラーメッセージの構成
+*/
 type BCError struct {
 	Function string
 	Msg      string
