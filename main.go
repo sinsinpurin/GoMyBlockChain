@@ -5,23 +5,25 @@ import (
 )
 
 func main() {
-	MyBlockChainAddress := "My Address"
+	MyBlockChainAddress := "test recipient address"
 	BC := blockchain.InitBlockChain(MyBlockChainAddress)
-
+	wallet := blockchain.GenerateWallet()
+	wallet.PrintWalletInfo()
 	// block1
-	BC.AddTransaction(BC.CreateTransaction("masaki", MyBlockChainAddress, 100000000))
-	BC.Mining()
-
-	// BC.PrintChain()
-
-	// block2
-	BC.AddTransaction(BC.CreateTransaction(MyBlockChainAddress, "coco", 1000000000))
-	BC.AddTransaction(BC.CreateTransaction("masaki", "michi", 100000000))
+	transaction1 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 100000000)
+	BC.AddTransaction(transaction1, wallet.PublicKey, blockchain.GenerateSignature(wallet, transaction1))
 	BC.Mining()
 
 	BC.PrintChain()
-	BC.PrintAddressAmount(MyBlockChainAddress)
 
-	wallet := blockchain.GenerateWallet()
-	wallet.PrintWalletInfo()
+	transaction2 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 50000000)
+	BC.AddTransaction(transaction2, wallet.PublicKey, blockchain.GenerateSignature(wallet, transaction2))
+	transaction3 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 600000)
+	BC.AddTransaction(transaction3, wallet.PublicKey, blockchain.GenerateSignature(wallet, transaction3))
+	BC.Mining()
+	BC.PrintChain()
+
+	BC.Mining()
+	BC.PrintChain()
+
 }

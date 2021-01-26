@@ -3,7 +3,7 @@
 Go Document
 
 ```zsh
-% go doc -http=:8080
+% godoc -http=:8080
 ```
 
 # Wallet の作成
@@ -28,3 +28,4 @@ Bitcoin を採用
 # 参考文献
 
 [ビットコインウォレットを Javascript で作ってみよう](https://note.com/strictlyes/n/n5432a4c5bd36)
+[ビットコインアドレスを自分の手で作って理解する](https://nevertoolate.hatenablog.jp/entry/2020/04/02/060000)

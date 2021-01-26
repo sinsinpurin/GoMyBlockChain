@@ -29,17 +29,6 @@ func (wallet *Wallet) Sign(msg []byte) []byte {
 	return signature
 }
 
-/*
-VerifySignature 公開鍵と署名を使用して署名の有効性を検証します
-*/
-func VerifySignature(msg []byte, signature []byte, pubKey []byte) bool {
-	result := secp256k1.VerifySignature(msg, signature, pubKey)
-	if result == 0 {
-		return false //Invalid Signature
-	}
-	return true // Varid Signature
-}
-
 func generateBlockChainAddress(publicKey []byte) string {
 	// 1. 公開鍵を SHA-256 にかけ その後 RIPEMD-160 をかけて PublicKeyHash を作成
 	ripemd := ripemd160.New()

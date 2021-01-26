@@ -7,9 +7,10 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
 	"time"
+
+	"github.com/haltingstate/secp256k1-go"
 )
 
 // MiningDifficulty マイニング難易度
@@ -25,6 +26,7 @@ const MiningReward = 1.0
 InitBlockChain BlockChainを初期化しBlockChainを返します
 */
 func InitBlockChain(blockChainAddress string) *BlockChain {
+	BCLogger("(BC *BlockChain)", "InitBlockChain()", "Initialize BlockChain")
 	blockchain := new(BlockChain)
 	blockchain.BlockChainAddress = blockChainAddress
 	initBlock := Block{
@@ -52,6 +54,25 @@ func (BC *BlockChain) CreateBlock(nonce uint) Block {
 	BC.Chain = append(BC.Chain, block)
 	BC.TransactionPool = nil
 	return block
+}
+
+/*
+AddTransaction 与えられたトランザクションを検証しトランザクションプールに格納します
+*/
+func (BC *BlockChain) AddTransaction(transaction Transaction, senderPublicKey []byte, signature []byte) bool {
+	if result := BC.VerifyTransactionSignature(senderPublicKey, signature, transaction); result == true {
+		BC.TransactionPool = append(BC.TransactionPool, transaction)
+		return true
+	}
+	return false
+}
+
+/*
+addMiningTransaction マイニング報酬のトランザクションをトランザクションプールに格納します
+*/
+func (BC *BlockChain) addMiningTransaction(transaction Transaction) bool {
+	BC.TransactionPool = append(BC.TransactionPool, transaction)
+	return true
 }
 
 /*
@@ -88,11 +109,33 @@ func (BC *BlockChain) proofOfWork() uint {
 Mining マイニングを行います
 */
 func (BC *BlockChain) Mining() bool {
-	BC.AddTransaction(BC.CreateTransaction(MiningSender, BC.BlockChainAddress, MiningReward))
+	BCLogger("(BC *BlockChain)", "Mining()", "Run Mining")
+	BC.addMiningTransaction(CreateTransaction(MiningSender, BC.BlockChainAddress, MiningReward))
 	nonce := BC.proofOfWork()
 	BC.CreateBlock(nonce)
-	log.Println("(BC *BlockChain) Mining(): Success")
 	return true
+}
+
+/*
+VerifyTransactionSignature トランザクションが有効であるかを検証します
+*/
+func (BC *BlockChain) VerifyTransactionSignature(senderPublicKey []byte, signature []byte, transaction Transaction) bool {
+	BCLogger("(BC *BlockChain)", "VerifyTransactionSignature", "Run Verify Transaction by BlockChain")
+	transactionJSON, _ := json.Marshal(transaction)
+	message := sha256.Sum256([]byte(string(transactionJSON)))
+	result := verifySignature(message[:], signature, senderPublicKey)
+	return result
+}
+
+/*
+verifySignature 公開鍵と署名を使用して署名の有効性を検証します
+*/
+func verifySignature(msg []byte, signature []byte, pubKey []byte) bool {
+	result := secp256k1.VerifySignature(msg, signature, pubKey)
+	if result == 0 {
+		return false //Invalid Signature
+	}
+	return true // Varid Signature
 }
 
 /*
