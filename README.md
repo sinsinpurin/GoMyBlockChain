@@ -29,3 +29,11 @@ Bitcoin を採用
 
 [ビットコインウォレットを Javascript で作ってみよう](https://note.com/strictlyes/n/n5432a4c5bd36)
 [ビットコインアドレスを自分の手で作って理解する](https://nevertoolate.hatenablog.jp/entry/2020/04/02/060000)
+
+# Server
+
+## メモ
+
+port 番号の設定
+
+`go run main.go -p {port番号}`

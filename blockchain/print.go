@@ -46,10 +46,11 @@ func (BC *BlockChain) PrintAddressAmount(blockChainAddress string) {
 /*
 PrintWalletInfo Walletの情報を表示します
 */
-func (wallet *Wallet) PrintWalletInfo() {
+func (BC *BlockChain) PrintWalletInfo(wallet Wallet) {
 	fmt.Printf("%s Wallet Info %s \n", strings.Repeat("=", 40), strings.Repeat("=", 40))
 	fmt.Printf("PriKey: %x \n", wallet.PrivateKey)
 	fmt.Printf("PubKey: %x \n", wallet.PublicKey)
 	fmt.Printf("Address: %s \n", wallet.Address)
+	fmt.Printf("Amount: %d \n", BC.CalculateTotalAmount(wallet.Address))
 	fmt.Printf("%s \n \n \n", strings.Repeat("=", 93))
 }

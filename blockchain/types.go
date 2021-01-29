@@ -3,9 +3,18 @@ package blockchain
 import "time"
 
 /*
+BlockChainServer の構成
+*/
+type BlockChainServer struct {
+	BlockChain BlockChain `json:"BlockChain"`
+	Wallet     Wallet     `json:"Wallet"`
+}
+
+/*
 BlockChain の構成
 TransactionPool : []Transaction ( マイニングされていないトランザクションを一時的に貯める )
 Chain           : Block         ( 生成されたブロックBlock )
+BlockChainAddress: string       ( ブロックチェーンを所有するアドレス )
 */
 type BlockChain struct {
 	TransactionPool   []Transaction `json:"TransactionPool"`
@@ -15,7 +24,7 @@ type BlockChain struct {
 
 /*
 Block の構成
-PreHash  :　Hash?          ( 以前のブロックのハッシュ)
+PreHash        :  Hash?    ( 以前のブロックのハッシュ)
 Nonce          :  int      ( nonceの値 )
 Timestamp      :  Time     ( 作成時刻 )
 Transactions   :  Transaction[]
@@ -41,7 +50,7 @@ type Transaction struct {
 Wallet の構成
 */
 type Wallet struct {
-	PrivateKey []byte
-	PublicKey  []byte
-	Address    string
+	PrivateKey []byte `json:"PrivateKey"`
+	PublicKey  []byte `json:"PublicKey"`
+	Address    string `json:"Address"`
 }

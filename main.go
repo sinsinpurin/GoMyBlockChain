@@ -8,22 +8,14 @@ func main() {
 	MyBlockChainAddress := "test recipient address"
 	BC := blockchain.InitBlockChain(MyBlockChainAddress)
 	wallet := blockchain.GenerateWallet()
-	wallet.PrintWalletInfo()
+	BC.PrintWalletInfo(wallet)
+
 	// block1
-	transaction1 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 100000000)
-	BC.AddTransaction(transaction1, wallet.PublicKey, blockchain.GenerateSignature(wallet, transaction1))
-	BC.Mining()
+	BC.Mining(wallet.Address)
 
-	BC.PrintChain()
-
-	transaction2 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 50000000)
+	transaction2 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 1)
 	BC.AddTransaction(transaction2, wallet.PublicKey, blockchain.GenerateSignature(wallet, transaction2))
-	transaction3 := blockchain.CreateTransaction(wallet.Address, MyBlockChainAddress, 600000)
-	BC.AddTransaction(transaction3, wallet.PublicKey, blockchain.GenerateSignature(wallet, transaction3))
-	BC.Mining()
+	BC.Mining(wallet.Address)
 	BC.PrintChain()
-
-	BC.Mining()
-	BC.PrintChain()
-
+	BC.PrintWalletInfo(wallet)
 }

@@ -7,20 +7,12 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
 	"github.com/haltingstate/secp256k1-go"
 )
-
-// MiningDifficulty マイニング難易度
-const MiningDifficulty = 3
-
-// MiningSender マイニング報酬の送信者
-const MiningSender = "THE BROCKCHAIN"
-
-// MiningReward マイニングの報酬額
-const MiningReward = 1.0
 
 /*
 InitBlockChain BlockChainを初期化しBlockChainを返します
@@ -60,6 +52,10 @@ func (BC *BlockChain) CreateBlock(nonce uint) Block {
 AddTransaction 与えられたトランザクションを検証しトランザクションプールに格納します
 */
 func (BC *BlockChain) AddTransaction(transaction Transaction, senderPublicKey []byte, signature []byte) bool {
+	if BC.CalculateTotalAmount(transaction.SenderAddress) < transaction.Value {
+		log.Fatalln("AddTransaction:Sender Address don't have enough amount.")
+		return false
+	}
 	if result := BC.VerifyTransactionSignature(senderPublicKey, signature, transaction); result == true {
 		BC.TransactionPool = append(BC.TransactionPool, transaction)
 		return true
@@ -108,9 +104,9 @@ func (BC *BlockChain) proofOfWork() uint {
 /*
 Mining マイニングを行います
 */
-func (BC *BlockChain) Mining() bool {
+func (BC *BlockChain) Mining(minerAddress string) bool {
 	BCLogger("(BC *BlockChain)", "Mining()", "Run Mining")
-	BC.addMiningTransaction(CreateTransaction(MiningSender, BC.BlockChainAddress, MiningReward))
+	BC.addMiningTransaction(CreateTransaction(MiningSender, minerAddress, MiningReward))
 	nonce := BC.proofOfWork()
 	BC.CreateBlock(nonce)
 	return true
