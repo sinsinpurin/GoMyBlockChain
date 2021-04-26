@@ -1,19 +1,25 @@
 # GoMyBlockchain
 
+GoMyBlockchain のライブラリーです．
+
 Go Document
 
 ```zsh
 % godoc -http=:8080
 ```
 
-# Wallet の作成
+# 仕様
 
-## 秘密鍵と公開鍵の生成
+以下は開発者のメモ用です．
+
+## Wallet の作成
+
+### 秘密鍵と公開鍵の生成
 
 1. 秘密鍵(32bytes)をランダムに生成
 2. 秘密鍵から secp256k1 を使用して公開鍵を生成
 
-## アドレスの生成
+### アドレスの生成
 
 Bitcoin を採用
 
@@ -25,16 +31,9 @@ Bitcoin を採用
 6. チェックサム を 2 の最後に連結
 7. 6 を BASE58 でエンコードして アドレスを生成
 
-# 参考文献
+## Server
 
-[ビットコインウォレットを Javascript で作ってみよう](https://note.com/strictlyes/n/n5432a4c5bd36)
-[ビットコインアドレスを自分の手で作って理解する](https://nevertoolate.hatenablog.jp/entry/2020/04/02/060000)
-
-# Server
-
-## メモ
-
-port 番号の設定
+### port 番号の設定
 
 `go run main.go -p {port番号}`
 
@@ -48,3 +47,8 @@ hex.EncodeToString(bytesignature)
 // string -> byte
 hex.DecodeString(strPublicKey)
 ```
+
+# 参考文献
+
+[ビットコインウォレットを Javascript で作ってみよう](https://note.com/strictlyes/n/n5432a4c5bd36)
+[ビットコインアドレスを自分の手で作って理解する](https://nevertoolate.hatenablog.jp/entry/2020/04/02/060000)
