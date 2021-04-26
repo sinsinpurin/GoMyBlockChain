@@ -37,3 +37,14 @@ Bitcoin を採用
 port 番号の設定
 
 `go run main.go -p {port番号}`
+
+[]byte -> string (hex)
+json で UI に送る際に使う
+
+```golang
+// byte -> string
+hex.EncodeToString(bytesignature)
+
+// string -> byte
+hex.DecodeString(strPublicKey)
+```

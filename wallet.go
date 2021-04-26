@@ -1,4 +1,4 @@
-package blockchain
+package gomyblockchain
 
 import (
 	"crypto/sha256"

@@ -1,4 +1,4 @@
-package blockchain
+package gomyblockchain
 
 import "time"
 
@@ -20,6 +20,8 @@ type BlockChain struct {
 	TransactionPool   []Transaction `json:"TransactionPool"`
 	Chain             []Block       `json:"Chain"`
 	BlockChainAddress string        `json:"BlockChainAddress"`
+	Port              int           `json:"Port"`
+	Neighbours        []string      `json:"Neighbours"`
 }
 
 /*
@@ -38,12 +40,22 @@ type Block struct {
 
 /*
 Transaction の構成
-
 */
 type Transaction struct {
 	RecipientAddress string `json:"RecipientAddress"`
 	SenderAddress    string `json:"SenderAddress"`
 	Value            uint64 `json:"Value"`
+}
+
+/*
+TransactionWithSig の構成
+*/
+type TransactionWithSig struct {
+	RecipientAddress string `json:"RecipientAddress"`
+	SenderAddress    string `json:"SenderAddress"`
+	Value            uint64 `json:"Value"`
+	PublicKey        string `json:"SenderPublicKey"`
+	Signature        string `json:"Signature"`
 }
 
 /*
@@ -53,4 +65,8 @@ type Wallet struct {
 	PrivateKey []byte `json:"PrivateKey"`
 	PublicKey  []byte `json:"PublicKey"`
 	Address    string `json:"Address"`
+}
+
+type ResChain struct {
+	Chain []Block
 }

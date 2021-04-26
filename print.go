@@ -1,4 +1,4 @@
-package blockchain
+package gomyblockchain
 
 import (
 	"fmt"
@@ -53,4 +53,15 @@ func (BC *BlockChain) PrintWalletInfo(wallet Wallet) {
 	fmt.Printf("Address: %s \n", wallet.Address)
 	fmt.Printf("Amount: %d \n", BC.CalculateTotalAmount(wallet.Address))
 	fmt.Printf("%s \n \n \n", strings.Repeat("=", 93))
+}
+
+/*
+PrintFindNeighbours
+*/
+func PrintFindNeighbours(neighbours []string) {
+	if neighbours != nil {
+		fmt.Println("--Find Neighbours--")
+		fmt.Println(neighbours)
+		fmt.Println("-------------------")
+	}
 }
